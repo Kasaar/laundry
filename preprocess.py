@@ -20,11 +20,9 @@ if 'Timestamp' in df.columns:
     
     # Standardize the timestamp feature
     scaler = StandardScaler()
-    df['Timestamp_Scaled'] = scaler.fit_transform(df[['Timestamp']])
-
-    # Replace the 'Timestamp' column with the scaled values
-    df['Timestamp'] = df['Timestamp_Scaled']
-    df.drop(columns=['Timestamp_Scaled'], inplace=True)
+    df['Timestamp'] = scaler.fit_transform(df[['Timestamp']])
+else:
+    print("Failed to find timestamp column")
 
 # Standardize sending bank designation
 
