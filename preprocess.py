@@ -1,7 +1,7 @@
 import kagglehub
 import pandas as pd
 from datetime import datetime
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 # Download latest version of the dataset
 path = kagglehub.dataset_download("ealtman2019/ibm-transactions-for-anti-money-laundering-aml")
@@ -18,13 +18,19 @@ if 'Timestamp' in df.columns:
     # Convert each timestamp
     df['Timestamp'] = pd.to_datetime(df['Timestamp'], format=date_format).astype(int) // 10**9
     
-    # Standardize the timestamp feature
+    # Standardize the Timestamp feature
     scaler = StandardScaler()
     df['Timestamp'] = scaler.fit_transform(df[['Timestamp']])
 else:
     print("Failed to find timestamp column")
 
 # Standardize sending bank designation
+if 'From Bank' in df.columns:
+    # Standardize the From Bank feature
+    scaler = StandardScaler()
+    df['From Bank'] = scaler.fit_transform(df[['From Bank']])
+else:
+    print("Failed to find From Bank column")
 
 # Standardize sending account number
 
