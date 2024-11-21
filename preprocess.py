@@ -1,6 +1,7 @@
 import kagglehub
 import pandas as pd
 from datetime import datetime
+from sklearn.preprocessing import StandardScaler
 
 # Download latest version of the dataset
 path = kagglehub.dataset_download("ealtman2019/ibm-transactions-for-anti-money-laundering-aml")
@@ -15,14 +16,11 @@ if 'Timestamp' in df.columns:
     date_format = "%Y/%m/%d %H:%M"
 
     # Convert each timestamp
-    for ele in df['Timestamp']:
-        # Convert to datetime object
-        date_time = datetime.strptime(ele, date_format)
-
-        # Convert to UNIX timestamp
-        unix_timestamp = int(date_time.timestamp())
-
-        print(unix_timestamp)
+    df['Timestamp'] = pd.to_datetime(df['Timestamp'], format=date_format).astype(int) // 10**9
+    
+    # Standardize timestamp feature
+    scaler = StandardScaler()
+    df['Timestamp_Scaled'] = scaler.fit_transform(df[['Timestamp']])
 
 # Standardize sending bank designation
 
