@@ -10,7 +10,7 @@ df = pd.read_csv(file_path)
 
 print("Successfully read file")
 
-# Convert timestamps to UNIX format
+# Convert timestamps to UNIX format and standardize
 if 'Timestamp' in df.columns:
     # Define the format the timestamp strings are in
     date_format = "%Y/%m/%d %H:%M"
