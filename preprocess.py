@@ -18,9 +18,13 @@ if 'Timestamp' in df.columns:
     # Convert each timestamp
     df['Timestamp'] = pd.to_datetime(df['Timestamp'], format=date_format).astype(int) // 10**9
     
-    # Standardize timestamp feature
+    # Standardize the timestamp feature
     scaler = StandardScaler()
     df['Timestamp_Scaled'] = scaler.fit_transform(df[['Timestamp']])
+
+    # Replace the 'Timestamp' column with the scaled values
+    df['Timestamp'] = df['Timestamp_Scaled']
+    df.drop(columns=['Timestamp_Scaled'], inplace=True)
 
 # Standardize sending bank designation
 
@@ -29,3 +33,7 @@ if 'Timestamp' in df.columns:
 # Standardize receiving bank designation
 
 #  Standardize receiving account number
+
+# Store the processed data locally
+output_file_path = "processed_HI-Small_Trans.csv"
+df.to_csv(output_file_path, index=False)
